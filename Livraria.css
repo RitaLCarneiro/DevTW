@@ -1,3 +1,72 @@
-#SearchCenterAlign{
-    
+.navbar-custom {
+    background-color: #CC9A06; 
+
+}
+
+.navbar-custom,
+.navbar-brand,
+.navbar-custom,
+.navbar-nav,
+.nav-link {
+    color: #653208; 
+    padding-top:0px;
+    padding-bottom: 0px;
+}
+
+.navbar-custom 
+.navbar-toggler-icon {
+    background-color: #653208; 
+}
+
+.navbar-custom 
+.navbar-toggler {
+border-color: #653208; 
+}
+
+.icon-big {
+    font-size: 150%;
+}
+
+.icon-text {
+    display: flex; 
+    flex-direction: column; 
+    text-align: center;
+    font-size: 60%;
+}
+
+.headerPic{
+    width: 100%;
+    height: 50%;
+}
+
+#nav1{
+    background-color: #CC9A06; 
+    opacity: 0.7;
+    filter:(opacity=50); 
+}
+
+#headerbackground{
+    background-image: url(assets/imgs/imgHeader.jpg);
+}
+
+.btn-icons {
+    color: #211002;
+    background-color: #65320810;
+    border-color: #653208; 
+}
+.btn-icons:hover, .btn-icons:focus, .btn-icons:active, .btn-icons.active, .open>.dropdown-toggle.btn-icons {
+    color: #fff;
+    background-color: #653208;
+    border-color: #ffffff; 
+}
+
+#headerIcons{
+    background-color: #653208; 
+}
+
+#mainLogo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
