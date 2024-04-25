@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Genres</title>
+       <!-- Required meta tags -->
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+       <!-- Bootstrap CSS -->
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+       <link rel="stylesheet" href="Livraria.css">
+       <title>Livraria On-Line</title>
 </head>
 
 <style>
@@ -61,69 +62,124 @@
     font-size: 20px;
     color: #996B41;
     }
+    
 
 </style>
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-custom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="javascript:void(0)" style="width: 5%; height: 5%;">
-        <img class="img-fluid" src="assets/imgs/Logotipo.png" >
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-    <form class="d-flex justify-content-center">
-        <input class="form-control me-2" type="text" placeholder="Search">
-        <button class="btn btn-outline-dark" type="button">
-            <i class="bi-search"></i>
-        </button>
-    </form>
-
-    <form class="d-flex justify-content-right">
-        <ul class="navbar-nav">
-        <li class="nav-item p-1">
-            <div class="icon-text">
-                <button class="btn btn-outline-dark" type="button">
-                    <i class="bi bi-coin icon-big"></i>
-                </button>
-                Promotions
-            </div>
-        </li>
-        <li class="nav-item p-1">
-            <div class="icon-text">
-                <button class="btn btn-outline-dark" type="button">
-                    <i class="bi bi-archive icon-big"></i>
-                </button>
-                Genres
-            </div>
+    <div class="container-fluid" id="headerbackground">
+        <nav class="navbar navbar-expand-md navbar-custom" id="nav1">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)" style="width: 5%; height: 5%;">
+              <img class="img-fluid" src="assets/imgs/Logotipo.png" >
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
             
-        </li>
-        <li class="nav-item p-1">
-            <div class="icon-text">
-                <button class="btn btn-outline-dark" type="button">
-                    <i class="bi bi-bookmarks icon-big"></i>
-                </button>
-                My Books
+            <form class="d-flex justify-content-center">
+              <input class="form-control me-2" type="text" placeholder="Search">
+              <button class="btn btn-icons btn-outline-dark" type="button">
+                <i class="bi-search"></i>
+              </button>
+            </form>
+    
+            <form class="d-flex justify-content-right">
+              <ul class="navbar-nav">
+                <li class="nav-item p-1">
+                  <div class="icon-text">
+                    <button class="btn btn-icons btn-outline-dark" type="button">
+                      <i class="bi bi-coin icon-big"></i>
+                    </button>
+                    Promotions
+                  </div>
+                </li>
+                <li class="nav-item p-1">
+                  <div class="icon-text">
+                    <button class="btn btn-icons btn-outline-dark" type="button">
+                      <i class="bi bi-archive icon-big"></i>
+                    </button>
+                    Genres
+                  </div>
+                  
+                </li>
+                <li class="nav-item p-1">
+                  <div class="icon-text">
+                    <button class="btn btn-icons btn-outline-dark" type="button">
+                      <i class="bi bi-bookmarks icon-big"></i>
+                    </button>
+                    My Books
+                  </div>
+                  
+                </li>
+                <li class="nav-item p-1">
+                  <div class="icon-text">
+                    <button class="btn btn-icons btn-outline-dark" type="button">
+                      <i class="bi bi-person icon-big"></i>
+                    </button>
+                    My Account
+                  </div>
+                  
+                </li>
+              </ul>
+              
+            </form>
+          </div>
+        </nav>
+        <div class="container">
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-1">
+                    <img src="assets/icons/genres_branco.svg" style="width: 40px;height: 40px; margin-top: 5px;">
+                </div>
+                <div class="col-md-3">
+                    <h1 style="color:white;margin-left: -60px;">Genres</h1>
+                </div>
             </div>
-            
-        </li>
-        <li class="nav-item p-1">
-            <div class="icon-text">
-                <button class="btn btn-outline-dark" type="button">
-                    <i class="bi bi-person icon-big"></i>
-                </button>
-                My Account
-            </div>
-            
-        </li>
-        </ul>
-        
-    </form>
+      </div>
     </div>
-</nav>
+    <div class="container text-center">
+        <br>
+        <!--<h2 class="title" style="margin-left: 90px;">Genres</h2> <br><br><br><br>-->
+        <div class="row align-items-start">
+            <div class="col col-divider">
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+            </div>
+            <div class="col col-divider">
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+            </div>
+            <div class="col col-divider">
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+                <a class="nav-link" href="GridGenero.html">NomeGénero</a>
+            </div>
+        </div>
+    </div>
 
 <!-- Optional JavaScript; choose one of the two! -->
 
@@ -136,49 +192,4 @@
 -->
 </body>
 
-<body>
-
-    <div class="container text-center">
-        <br>
-        <h2 class="title">Genres</h2> <br><br><br><br>
-        <div class="row align-items-start">
-            <div class="col col-divider">
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-            </div>
-            <div class="col col-divider">
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-            </div>
-            <div class="col col-divider">
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-                <a class="nav-link" href="javascript:void(0)">NomeGénero</a>
-            </div>
-        </div>
-    </div>
-</body>
 </html>
