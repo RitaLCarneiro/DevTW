@@ -12,7 +12,7 @@
     <title>Livraria On-Line</title>
 
   </head>
-  <body onload="getBookMV('9780062059932'); getBookRA('9780062059932');">
+  <body onload="getBookMV('9780062059932'); getBookRA('9780062059932'); createCookie();">
     <!--Componente do Header-->
     <div class="container-fluid" id="headerbackground">
       <nav class="navbar navbar-expand-md navbar-custom" id="nav1">
@@ -53,7 +53,7 @@
               </li>
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Perfil.html" role="button">
+                  <a onclick="checkLogIn()" class="btn btn-icons btn-outline-dark btn-login" role="button">
                     <i class="bi bi-person icon-big"></i>
                   </a>
                   My Account
