@@ -66,3 +66,20 @@ function buttonBarRA(){
         getBookRA('9780062059932');
     }
 }
+function createCookie(){
+    document.cookie = "notLogged";
+    console.log(document.cookie);
+}
+
+function checkLogIn(){
+    let loggedIn=document.cookie;
+    const login = document.getElementsByClassName('btn-login');
+    console.log(loggedIn);
+    /*if (loggedIn != 'logged'){
+        //login[0].href = "login.html";
+        document.cookie = "logged";
+    }else if (loggedIn =='logged'){
+        //login[0].href = "Perfil.html";
+    }*/
+    login[0].href = "Perfil.html";
+}
