@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="Livraria.css">
     <title>Livraria On-Line</title>
-    
+    <script src="perfil.js"></script>
 
   </head>
   <body>
@@ -18,7 +18,23 @@
     <?php
         session_start();
         require("./connection.php");
-        
+        //Receber AJAX Livro (pls work ja vao 4 horas)
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['isbn'])) {
+          $data = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+          $_SESSION['isbn'] = $data;
+        }
+
+        $connLivros = ladybook::connect()->prepare("SELECT * FROM livros WHERE isbn = :isbn");
+        $connLivros->bindValue(':isbn', $_SESSION['isbn']);
+        $connLivros->execute();
+        $livros = $connLivros->fetch(PDO::FETCH_ASSOC);
+
+        $connSugestoes = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn FROM livros WHERE livros.idGenero = :idGenero;");
+        $connSugestoes->bindValue(':idGenero',$livros['idGenero']);
+        $connSugestoes->execute();
+        $sugestoes=$connSugestoes->fetchAll(PDO::FETCH_ASSOC);
+        $jsonLivros=json_encode($sugestoes,JSON_PRETTY_PRINT);
+        file_put_contents('sugestoes.json', $jsonLivros);
     ?>
 
     <div class="container-fluid" id="headerbackground">
@@ -94,14 +110,13 @@
             <div class="card mb-3" style="max-width: 540px; height: 300px;">
               <div class="row g-0">
                 <div class="col-md-4">
-                  <img src="assets/imgs/Livroexemplo.jpg" class="img-thumbnail" alt="...">
+                  <img src="<?php echo $livros['capa'];?>" class="img-thumbnail" alt="...">
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                    <h3 class="card-title">Nome Livro</h3>
-                    <h4 class="card-tittle">Autor</h4>
-                    <h6 class="card-tittle">Editora</h6>
-                    <br>
+                    <h3 class=""><?php echo $livros['nome'];?></h3>
+                    <h4 class=""><?php echo $livros['autor'];?></h4>
+                    <h6 class=""><?php echo $livros['editora'];?></h6>
                     <br>
                     <br>
                     <br>
@@ -111,7 +126,8 @@
                       </div>
                       <div class="col-md-4">  </div>
                     <div class="col-md-4">
-                      <p class="card-text">Preço</p>
+                      <h5 class="card-text">Preço</h5>
+                      <h5 class="card-text"><?php echo $livros['preco'];?> €</h5>
                     </div>
                     </div>
                   </div>
@@ -122,7 +138,7 @@
           </div>
           <div class="col">
               <h3>Synopsis</h3>
-              <p>Resumo aqui </p>
+              <p><?php echo $livros['sinopse'];?></p>
           </div>
         </div>
         <br>
@@ -137,55 +153,8 @@
         <br>
         <!--Lista dos livros de sugestões, sugeridos por categoria-->
         <div style="background-color: #f5e8aa;border: none;border-radius: 10px;">
-          <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-2">
-                  <div class="card" style="width: 10rem;background-color: #f5e8aa; border: none;border-radius: 10px; margin-top: 10px;">
-                    <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Título do Livro</h5>
-                      <a href="Livro.html" class=" stretched-link"></a>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-md-2">
-                <div class="card" style="width: 10rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">
-                  <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Título do Livro</h5>
-                    <a href="Livro.html" class=" stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="card" style="width: 10rem;background-color: #f5e8aa;border: none;border-radius: 10px;margin-top: 10px;">
-                  <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Título do Livro</h5>
-                    <a href="Livro.html" class=" stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="card" style="width: 10rem;background-color: #f5e8aa;border: none;border-radius: 10px;margin-top: 10px;">
-                  <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Título do Livro</h5>
-                    <a href="Livro.html" class=" stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="card" style="width: 10rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">
-                  <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Título do Livro</h5>
-                    <a href="Livro.html" class=" stretched-link"></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-1"></div>
-            </div>
+          <div class="row" id="sugestions">
+
           </div>    
         </div>
     <br>

@@ -36,7 +36,6 @@
         $connLivros->bindValue(':idUser',$user['idUser']);
         $connLivros->execute();
         $livros=$connLivros->fetchAll(PDO::FETCH_ASSOC);
-        print_r($livros);
         $jsonLivros=json_encode($livros,JSON_PRETTY_PRINT);
         file_put_contents('livros.json', $jsonLivros);
         

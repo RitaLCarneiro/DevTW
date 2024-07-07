@@ -1,10 +1,17 @@
 var aboutMe_original;
 var bookStart=0;
 var newBook="";
-
-document.addEventListener('DOMContentLoaded', function() {
-    loadBooks();
-});
+const currentFile = window.location.pathname.split('/').pop();
+if(currentFile=="Perfil.php"){
+    document.addEventListener('DOMContentLoaded', function() {
+        loadBooks();
+    });
+}
+if(currentFile=="Livro.php"){
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSugestions();
+    });
+}
 
 function editAboutMe(){
     fetch('aboutMe.json')
@@ -47,12 +54,13 @@ function loadBooks(){
             if (i+bookStart < data.length){
                 newBook+=
                 '<div class="col-md" style="margin-top: 30px;">'+
-                '<div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">'+
+                '<div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;" onclick="gotoBook('+data[i+bookStart].isbn+')">'+
+                '<form method="post">'+
                 '<img src="https://covers.openlibrary.org/b/isbn/'+data[i+bookStart].isbn+'-M.jpg" class="card-img-top" alt="...">'+
                 '<div class="card-body">'+
                 '<h5 class="card-title" >'+data[i+bookStart].nome+'</h5>'+
-                '<a href="Livro.html" class=" stretched-link"></a>'+
                 '</div>'+
+                '</form>'+
                 '</div>'+
                 '</div>';
             }
@@ -71,4 +79,76 @@ function loadBooks(){
             bookStart = 0;
         }
     })
+    
+}
+
+function gotoBook(isbn){
+    //AJAX de mandar os dados do livro
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'Livro.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log('AJAX livro funcionou: ' + xhr.responseText);
+        } else {
+            console.error('AJAX livro morreu: ' + xhr.statusText);
+        }
+    };
+    xhr.onerror = function () {
+        console.error('AJAX livro problemas. Verificar.');
+    };
+
+    xhr.send('isbn=' + encodeURIComponent(isbn));
+    gotoBookLocation();
+}
+
+function gotoBookLocation(){
+    window.location.href='Livro.php';
+}
+
+function getISBN(isbn) {
+    const urlISBN = new URLSearchParams(window.location.search);
+    return urlISBN.get(isbn);
+}
+
+function loadSugestions(){
+    fetch('sugestoes.json')
+    .then(response => response.json())
+    .then(data => {
+        newBook=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadSugestions()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-left icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+        for(let i=0; i<5 ;i++){
+            if (i+bookStart < data.length){
+                newBook+=
+                '<div class="col-md" style="margin-top: 30px;">'+
+                '<div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;" onclick="gotoBook('+data[i+bookStart].isbn+')">'+
+                '<form method="post">'+
+                '<img src="https://covers.openlibrary.org/b/isbn/'+data[i+bookStart].isbn+'-M.jpg" class="card-img-top" alt="...">'+
+                '<div class="card-body">'+
+                '<h5 class="card-title" >'+data[i+bookStart].nome+'</h5>'+
+                '</div>'+
+                '</form>'+
+                '</div>'+
+                '</div>';
+            }
+        }
+        newBook+=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadSugestions()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-right icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+
+        document.getElementById("sugestions").innerHTML = newBook;
+
+        bookStart += 5;
+        if (bookStart >= data.length) {
+            bookStart = 0;
+        }
+    })
+    
 }
