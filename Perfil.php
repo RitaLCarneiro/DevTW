@@ -10,8 +10,57 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <link rel="stylesheet" href="Livraria.css">
    <title>Livraria On-Line</title>
+   <script src="perfil.js"></script>
   </head>
   <body>
+
+  <?php
+        session_start();
+        require("./connection.php");
+        $connUsers = ladybook::connect()->prepare("SELECT * FROM users WHERE email = :email");
+        $email=$_SESSION['email'];
+        $connUsers->bindValue(':email',$email);
+        $connUsers->execute();
+        $users=$connUsers->fetchAll(PDO::FETCH_ASSOC);
+        $user=$users[0];
+
+        $nome=$user['name'];
+        $aboutMe=$user['aboutMe'];
+        $aboutMeJSON = ["aboutMe" => $aboutMe];
+        file_put_contents('aboutMe.json', json_encode($aboutMeJSON));
+
+        $connLivros = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn FROM livros 
+        INNER JOIN livrouser ON livros.idLivro = livrouser.idLivro
+        INNER JOIN users ON livrouser.idUser = users.idUser
+        WHERE users.idUser = :idUser;");
+        $connLivros->bindValue(':idUser',$user['idUser']);
+        $connLivros->execute();
+        $livros=$connLivros->fetchAll(PDO::FETCH_ASSOC);
+        print_r($livros);
+        $jsonLivros=json_encode($livros,JSON_PRETTY_PRINT);
+        file_put_contents('livros.json', $jsonLivros);
+        
+        if (isset($_POST['Perfil_btn'])){
+          if(empty($_SESSION['email'])){
+            header("Location: login.php");
+            exit();
+          }else{
+            header("Location: Perfil.php");
+            exit();
+          }
+        }
+
+        if (isset($_POST['aboutMe_conf'])){
+          $novoAboutMe=$_POST['aboutMe_new'];
+          $updateAboutMe = ladybook::connect()->prepare("UPDATE users SET aboutMe = :novo_aboutMe WHERE email = :email");
+          $updateAboutMe->bindValue(':novo_aboutMe',$novoAboutMe);
+          $updateAboutMe->bindValue(':email',$email);
+          $updateAboutMe->execute();
+          header("Location: Perfil.php");
+          exit();
+        }
+    ?>
+
     <div class="container-fluid" id="headerbackground">
       <nav class="navbar navbar-expand-md navbar-custom" id="nav1">
         <div class="container-fluid">
@@ -29,7 +78,7 @@
             </button>
           </form>
   
-          <form class="d-flex justify-content-right">
+          <form class="d-flex justify-content-right" method="post">
             <ul class="navbar-nav">
               <li class="nav-item p-1">
                 <div class="icon-text">
@@ -51,9 +100,9 @@
               </li>
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Perfil.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="Perfil_btn" role="button">
                     <i class="bi bi-person icon-big"></i>
-                  </a>
+                  </button>
                   My Account
                 </div>
                 
@@ -69,7 +118,7 @@
                     <img src="assets/icons/user_branco.svg" style="width: 40px;height: 40px; margin-top: 5px;">
                 </div>
                 <div class="col-md-3">
-                    <h1 style="color:white;margin-left: -60px;">Profile</h1>
+                    <h1 class="PageTitle" style="color:white;margin-left: -60px;">Profile</h1>
                 </div>
             </div>
       </div>
@@ -86,8 +135,8 @@
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
-                            <h3 class="card-title">Utilizador</h3>
-                            <p class="card-text">@utilizador</p>
+                            <h3><?php echo $nome; ?></h3>
+                            <h6>@<?php echo $nome; ?></h6>
                             <div class="row g-0">
                                 <div class="col-md-1">
                                     <img style="width: 20px;height: 20px;margin-left: 10px;" src="assets/icons/email.svg" alt="">
@@ -96,7 +145,7 @@
                                     <h6 style="margin-top: 5px;">Email:</h6>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="card-text"><small class="text-muted">utilizador@exemplo.com</small></p>
+                                    <p style="margin-top: 5px;font-size:small;"><?php echo $email; ?></p>
                                 </div>
                             </div>
                             <div class="row g-0">
@@ -113,13 +162,23 @@
                     </div>
                   </div>
             </div>
+
+            <!-- Setor do About Me do utilizador (verificar eficiência de JS) -->
             <div class="col-md-4" style="margin-top: 40px;">
                 <div class="row g-0">
-                    <h6 style="margin-top: 5px;">About me: </h6>
+                  <div class="col-md-4">
+                    <h3 style="margin-top: 5px;">About me: </h3>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                    <button onclick="editAboutMe()" class="btn btn-sm btn-icons btn-outline-dark h6" name="AboutMe_btn" id="AboutMe_btn" role="button">
+                      <i class="bi bi-pencil-square letter-colors">Editar</i>
+                    </button>
+                  </div>
                 </div>
                 <div class="row g-0">
-                    <div style="background-color: #f5e8aa; width: 400px;height: 250px;border-radius: 10px;">
-
+                    <div class="aboutMeText" name="AboutMe_text" id="AboutMe_text">
+                      <?php echo $aboutMe; ?>
                     </div>
                 </div>
             </div>
@@ -129,40 +188,11 @@
                 <div style="background-color: #f5e8aa; width: 800px;max-height: 380px;border-radius: 10px;">
                     <div class="row g-0">
                         <div class="col-md-1" style="margin-top: 30px;"><img src="assets/icons/favs.svg" style="width: 30px;height: 30px;margin-left: 20px;"></div>
-                        <div class="col-md-3" style="margin-top: 30px;"><h5>My Favorites</h5></div>
+                        <div class="col-md-3" style="margin-top: 30px;"><h5>My Books</h5></div>
                     </div>
-                    <!--Lista de livros dentro da div My Favorites-->
-                    <div class="row g-0">
+                    <!--Lista de livros dentro da div My Books-->
+                    <div class="row g-0" id="myBooks" style="justify-content:center">
 
-                        <div class="col-md-2" style="margin-top: 30px;"></div>
-                        <div class="col-md-3" style="margin-top: 30px;">
-                            <div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">
-                                <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                  <h5 class="card-title">Título do Livro</h5>
-                                  <a href="Livro.html" class=" stretched-link"></a>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3" style="margin-top: 30px;">
-                            <div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">
-                                <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                  <h5 class="card-title">Título do Livro</h5>
-                                  <a href="Livro.html" class=" stretched-link"></a>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-3" style="margin-top: 30px;">
-                            <div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;">
-                                <img src="assets/imgs/Livroexemplo.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                  <h5 class="card-title">Título do Livro</h5>
-                                  <a href="Livro.html" class=" stretched-link"></a>
-                                </div>
-                              </div>
-                        </div>
-                        <div class="col-md-2" style="margin-top: 30px;"></div>
                     </div>
                 </div>
             </div>
@@ -178,5 +208,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    
+  
   </body>
 </html>
