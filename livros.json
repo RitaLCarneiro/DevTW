@@ -1,0 +1,51 @@
+[
+    {
+        "nome": "The Selection",
+        "isbn": "9780062059932",
+        "idGenero": "0",
+        "idUser": "0",
+        "isFavourite": "1"
+    },
+    {
+        "nome": "Fourth Wing",
+        "isbn": "9798885799263",
+        "idGenero": "1",
+        "idUser": "0",
+        "isFavourite": "1"
+    },
+    {
+        "nome": "Descendant Of The Crane",
+        "isbn": "9780807515518",
+        "idGenero": "1",
+        "idUser": "0",
+        "isFavourite": "1"
+    },
+    {
+        "nome": "Scarred",
+        "isbn": "9798985138047",
+        "idGenero": "0",
+        "idUser": "0",
+        "isFavourite": "0"
+    },
+    {
+        "nome": "Powerless",
+        "isbn": "9781665954884",
+        "idGenero": "0",
+        "idUser": "0",
+        "isFavourite": "0"
+    },
+    {
+        "nome": "Reckless",
+        "isbn": "9781665955430",
+        "idGenero": "0",
+        "idUser": "0",
+        "isFavourite": "0"
+    },
+    {
+        "nome": "Dune",
+        "isbn": "9780425046876",
+        "idGenero": "2",
+        "idUser": "0",
+        "isFavourite": "0"
+    }
+]

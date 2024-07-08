@@ -1,0 +1,22 @@
+[
+    {
+        "nome": "The Selection",
+        "isbn": "9780062059932",
+        "idGenero": "0"
+    },
+    {
+        "nome": "Scarred",
+        "isbn": "9798985138047",
+        "idGenero": "0"
+    },
+    {
+        "nome": "Powerless",
+        "isbn": "9781665954884",
+        "idGenero": "0"
+    },
+    {
+        "nome": "Reckless",
+        "isbn": "9781665955430",
+        "idGenero": "0"
+    }
+]

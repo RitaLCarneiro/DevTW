@@ -1,0 +1,14 @@
+[
+    {
+        "idGenero": "0",
+        "nome": "Romance"
+    },
+    {
+        "idGenero": "1",
+        "nome": "Fantasia"
+    },
+    {
+        "idGenero": "2",
+        "nome": "Sci-Fi"
+    }
+]
