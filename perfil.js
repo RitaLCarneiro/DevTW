@@ -46,7 +46,7 @@ function loadBooks(){
     .then(data => {
         newBook=
         '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
-        '<button onclick="loadBooks()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<button onclick="loadBooksBack()" class="btn btn-icons btn-outline-dark " type="button" >'+
         '<i class="bi bi-chevron-left icon-big" ></i>'+
         '</button>'+
         '</div>';
@@ -117,7 +117,7 @@ function loadSugestions(){
     .then(data => {
         newBook=
         '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
-        '<button onclick="loadSugestions()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<button onclick="loadSugestionsBack()" class="btn btn-icons btn-outline-dark " type="button" >'+
         '<i class="bi bi-chevron-left icon-big" ></i>'+
         '</button>'+
         '</div>';
@@ -146,6 +146,98 @@ function loadSugestions(){
         document.getElementById("sugestions").innerHTML = newBook;
 
         bookStart += 5;
+        if (bookStart >= data.length) {
+            bookStart = 0;
+        }
+    })
+    
+}
+
+function loadSugestionsBack(){
+    bookStart -= 10;
+    if (bookStart < 0) {
+        bookStart = 0;
+    }
+    fetch('sugestoes.json')
+    .then(response => response.json())
+    .then(data => {
+        newBook=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadSugestionsBack()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-left icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+        for(let i=0; i<5 ;i++){
+            if (i+bookStart < data.length){
+                newBook+=
+                '<div class="col-md" style="margin-top: 30px;">'+
+                '<div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;" onclick="gotoBook('+data[i+bookStart].isbn+')">'+
+                '<form method="post">'+
+                '<img src="https://covers.openlibrary.org/b/isbn/'+data[i+bookStart].isbn+'-M.jpg" class="card-img-top" alt="...">'+
+                '<div class="card-body">'+
+                '<h5 class="card-title" >'+data[i+bookStart].nome+'</h5>'+
+                '</div>'+
+                '</form>'+
+                '</div>'+
+                '</div>';
+            }
+        }
+        newBook+=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadSugestions()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-right icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+
+        document.getElementById("sugestions").innerHTML = newBook;
+
+        bookStart += 5;
+        if (bookStart >= data.length) {
+            bookStart = 0;
+        }
+    })
+    
+}
+
+function loadBooksBack(){
+    bookStart -= 8;
+    if (bookStart < 0) {
+        bookStart = 0;
+    }
+    fetch('livros.json')
+    .then(response => response.json())
+    .then(data => {
+        newBook=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadBooksBack()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-left icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+        for(let i=0; i<4 ;i++){
+            if (i+bookStart < data.length){
+                newBook+=
+                '<div class="col-md" style="margin-top: 30px;">'+
+                '<div class="card" style="width: 8rem;background-color: #f5e8aa; border: none;border-radius: 10px;margin-top: 10px;" onclick="gotoBook('+data[i+bookStart].isbn+')">'+
+                '<form method="post">'+
+                '<img src="https://covers.openlibrary.org/b/isbn/'+data[i+bookStart].isbn+'-M.jpg" class="card-img-top" alt="...">'+
+                '<div class="card-body">'+
+                '<h5 class="card-title" >'+data[i+bookStart].nome+'</h5>'+
+                '</div>'+
+                '</form>'+
+                '</div>'+
+                '</div>';
+            }
+        }
+        newBook+=
+        '<div class="col-md menu-padding-books menu-padding-buttons align-self-center" style="margin-top: 30px;">'+
+        '<button onclick="loadBooks()" class="btn btn-icons btn-outline-dark " type="button" >'+
+        '<i class="bi bi-chevron-right icon-big" ></i>'+
+        '</button>'+
+        '</div>';
+
+        document.getElementById("myBooks").innerHTML = newBook;
+
+        bookStart += 4;
         if (bookStart >= data.length) {
             bookStart = 0;
         }

@@ -29,7 +29,7 @@
         $aboutMeJSON = ["aboutMe" => $aboutMe];
         file_put_contents('aboutMe.json', json_encode($aboutMeJSON));
 
-        $connLivros = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn FROM livros 
+        $connLivros = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn, livros.idGenero, livrouser.idUser, livrouser.isFavourite FROM livros 
         INNER JOIN livrouser ON livros.idLivro = livrouser.idLivro
         INNER JOIN users ON livrouser.idUser = users.idUser
         WHERE users.idUser = :idUser;");
@@ -58,47 +58,57 @@
           header("Location: Perfil.php");
           exit();
         }
+
+        if(isset($_POST['Term_btn'])){
+          $_SESSION['email']="";
+          header("Location: Livraria.php");
+          exit();
+        }
+        if (isset($_POST['Livraria_btn'])){
+          header("Location: Livraria.php");
+          exit();
+      }
+      if (isset($_POST['Genres_btn'])){
+        header("Location: Genero.php");
+        exit();
+    }
+    if (isset($_POST['MyBooks_btn'])){
+        header("Location: ListaUtilizador.php");
+        exit();
+    }
     ?>
 
     <div class="container-fluid" id="headerbackground">
-      <nav class="navbar navbar-expand-md navbar-custom" id="nav1">
+    <nav class="navbar navbar-expand-md navbar-custom" id="nav1" >
         <div class="container-fluid">
-          <a class="navbar-brand" href="Livraria.html" style="width: 5%; height: 5%;">
+          <form class="justify-content-left" action="" method="post">
+          <button class="navbar-brand" name="Livraria_btn" style="width: 7%; height: 7%;">
             <img class="img-fluid" src="assets/imgs/Logotipo.png" >
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <form class="d-flex justify-content-center">
-            <input class="form-control me-2" type="text" placeholder="Search">
-            <button class="btn btn-icons btn-outline-dark" type="button">
-              <i class="bi-search"></i>
-            </button>
           </form>
-  
+          
           <form class="d-flex justify-content-right" method="post">
             <ul class="navbar-nav">
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Género.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="Genres_btn" role="button">
                     <i class="bi bi-archive icon-big"></i>
-                  </a>
+                  </button>
                   Genres
                 </div>
                 
               </li>
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="ListaUtilizador.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="MyBooks_btn" role="button">
                     <i class="bi bi-bookmarks icon-big"></i>
-                  </a>
+                  </button>
                   My Books
                 </div>
                 
               </li>
               <li class="nav-item p-1">
-                <div class="icon-text">
+              <div class="icon-text">
                   <button class="btn btn-icons btn-outline-dark" name="Perfil_btn" role="button">
                     <i class="bi bi-person icon-big"></i>
                   </button>
@@ -117,8 +127,16 @@
                     <img src="assets/icons/user_branco.svg" style="width: 40px;height: 40px; margin-top: 5px;">
                 </div>
                 <div class="col-md-3">
-                    <h1 class="PageTitle" style="color:white;margin-left: -60px;">Profile</h1>
+                  <h1 class="PageTitle" style="color:white;margin-left: -60px;">Profile</h1>
                 </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-2">
+                  <form action="" method="post">
+                    <input type="submit" name="Term_btn" value="Terminar Sessão" class="btn btn-warning" style="float:right">
+                  </form>
+                </div>
+
+                
             </div>
       </div>
       

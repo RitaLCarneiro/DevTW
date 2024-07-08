@@ -29,56 +29,114 @@
         $connLivros->execute();
         $livros = $connLivros->fetch(PDO::FETCH_ASSOC);
 
-        $connSugestoes = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn FROM livros WHERE livros.idGenero = :idGenero;");
+        $connUsers = ladybook::connect()->prepare("SELECT * FROM users WHERE email = :email");
+        $connUsers->bindValue(':email',$_SESSION['email']);
+        $connUsers->execute();
+        $users=$connUsers->fetchAll(PDO::FETCH_ASSOC);
+        $user=$users[0];
+
+        $connUserLivros = ladybook::connect()->prepare("SELECT * FROM livrouser
+        WHERE livrouser.idLivro = :idLivro AND livrouser.idUser = :idUser");
+        $connUserLivros->bindValue(':idLivro',$livros['idLivro']);
+        $connUserLivros->bindValue(':idUser',$user['idUser']);
+        $connUserLivros->execute();
+        $userLivros=$connUserLivros->fetchAll(PDO::FETCH_ASSOC);
+        $userLivro=$userLivros[0];
+        if($userLivro['isFavourite']==0){
+          $fav="Favoritar";
+        }else{
+          $fav="Desfavoritar";
+        }
+        
+        $connSugestoes = ladybook::connect()->prepare("SELECT livros.nome, livros.isbn, livros.idGenero FROM livros WHERE livros.idGenero = :idGenero;");
         $connSugestoes->bindValue(':idGenero',$livros['idGenero']);
         $connSugestoes->execute();
         $sugestoes=$connSugestoes->fetchAll(PDO::FETCH_ASSOC);
         $jsonLivros=json_encode($sugestoes,JSON_PRETTY_PRINT);
         file_put_contents('sugestoes.json', $jsonLivros);
+
+        if (isset($_POST['Perfil_btn'])){
+          if(empty($_SESSION['email'])){
+            header("Location: login.php");
+            exit();
+          }else{
+            header("Location: Perfil.php");
+            exit();
+          }
+        }
+
+        if (isset($_POST['Favourite_btn'])){
+          if(empty($_SESSION['email'])){
+            header("Location: login.php");
+            exit();
+          }else{
+            if($userLivro['isFavourite']==0){
+              $connFavourite=ladybook::connect()->prepare("UPDATE livrouser SET isFavourite = 1 
+              WHERE livrouser.idLivro = :idLivro AND livrouser.idUser = :idUser");
+              $connFavourite->bindValue(':idLivro',$livros['idLivro']);
+              $connFavourite->bindValue(':idUser',$user['idUser']);
+              $connFavourite->execute();
+              header("Location: Livro.php");
+              exit();
+            }else{
+              $connFavourite=ladybook::connect()->prepare("UPDATE livrouser SET isFavourite = 0 
+              WHERE livrouser.idLivro = :idLivro AND livrouser.idUser = :idUser");
+              $connFavourite->bindValue(':idLivro',$livros['idLivro']);
+              $connFavourite->bindValue(':idUser',$user['idUser']);
+              $connFavourite->execute();
+              header("Location: Livro.php");
+              exit();
+            }
+          }
+        }
+        if (isset($_POST['Livraria_btn'])){
+          header("Location: Livraria.php");
+          exit();
+      }
+      if (isset($_POST['Genres_btn'])){
+        header("Location: Genero.php");
+        exit();
+    }
+    if (isset($_POST['MyBooks_btn'])){
+        header("Location: ListaUtilizador.php");
+        exit();
+    }
     ?>
 
     <div class="container-fluid" id="headerbackground">
-      <nav class="navbar navbar-expand-md navbar-custom" id="nav1">
+    <nav class="navbar navbar-expand-md navbar-custom" id="nav1" >
         <div class="container-fluid">
-          <a class="navbar-brand" href="Livraria.html" style="width: 5%; height: 5%;">
+          <form class="justify-content-left" action="" method="post">
+          <button class="navbar-brand" name="Livraria_btn" style="width: 7%; height: 7%;">
             <img class="img-fluid" src="assets/imgs/Logotipo.png" >
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <form class="d-flex justify-content-center">
-            <input class="form-control me-2" type="text" placeholder="Search">
-            <button class="btn btn-icons btn-outline-dark" type="button">
-              <i class="bi-search"></i>
-            </button>
           </form>
-  
-          <form class="d-flex justify-content-right">
+          
+          <form class="d-flex justify-content-right" method="post">
             <ul class="navbar-nav">
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Género.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="Genres_btn" role="button">
                     <i class="bi bi-archive icon-big"></i>
-                  </a>
+                  </button>
                   Genres
                 </div>
                 
               </li>
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="ListaUtilizador.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="MyBooks_btn" role="button">
                     <i class="bi bi-bookmarks icon-big"></i>
-                  </a>
+                  </button>
                   My Books
                 </div>
                 
               </li>
               <li class="nav-item p-1">
-                <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Perfil.html" role="button">
+              <div class="icon-text">
+                  <button class="btn btn-icons btn-outline-dark" name="Perfil_btn" role="button">
                     <i class="bi bi-person icon-big"></i>
-                  </a>
+                  </button>
                   My Account
                 </div>
                 
@@ -122,7 +180,10 @@
                     <br>
                     <div class="row g-0">
                       <div class="col-md-4">
-                          <button type="button" class="btn btn-warning" >Favorito</button>
+                        <form action="" method="post">
+                          <input type="submit" name="Favourite_btn" value="<?php echo $fav;?>" class="btn btn-warning">
+                        </form>
+                          
                       </div>
                       <div class="col-md-4">  </div>
                     <div class="col-md-4">

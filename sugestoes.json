@@ -1,18 +1,12 @@
 [
     {
-        "nome": "The Selection",
-        "isbn": "9780062059932"
+        "nome": "Fourth Wing",
+        "isbn": "9798885799263",
+        "idGenero": "1"
     },
     {
-        "nome": "Scarred",
-        "isbn": "9798985138047"
-    },
-    {
-        "nome": "Powerless",
-        "isbn": "9781665954884"
-    },
-    {
-        "nome": "Reckless",
-        "isbn": "9781665955430"
+        "nome": "Descendant Of The Crane",
+        "isbn": "9780807515518",
+        "idGenero": "1"
     }
 ]

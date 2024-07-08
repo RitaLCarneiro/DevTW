@@ -13,49 +13,68 @@
 
   </head>
   <body onload="getBookMV('9780062059932'); getBookRA('9780062059932'); createCookie();">
+
+  <?php
+    session_start();
+    require("./connection.php");
+
+    if (isset($_POST['Perfil_btn'])){
+      if(empty($_SESSION['email'])){
+        header("Location: login.php");
+        exit();
+      }else{
+        header("Location: Perfil.php");
+        exit();
+      }
+    }
+    if (isset($_POST['Livraria_btn'])){
+        header("Location: Livraria.php");
+        exit();
+    }
+    if (isset($_POST['Genres_btn'])){
+        header("Location: Genero.php");
+        exit();
+    }
+    if (isset($_POST['MyBooks_btn'])){
+        header("Location: ListaUtilizador.php");
+        exit();
+    }
+  ?>
     <!--Componente do Header-->
     <div class="container-fluid" id="headerbackground" >
-      <nav class="navbar navbar-expand-md navbar-custom" id="nav1" >
+    <nav class="navbar navbar-expand-md navbar-custom" id="nav1" >
         <div class="container-fluid">
-          <a class="navbar-brand" href="Livraria.html" style="width: 5%; height: 5%;">
+          <form class="justify-content-left" action="" method="post">
+          <button class="navbar-brand" name="Livraria_btn" style="width: 7%; height: 7%;">
             <img class="img-fluid" src="assets/imgs/Logotipo.png" >
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <form class="d-flex justify-content-center">
-            <input class="form-control me-2" type="text" placeholder="Search">
-            <button class="btn btn-icons btn-outline-dark" type="button">
-              <i class="bi-search"></i>
-            </button>
           </form>
-  
-          <form class="d-flex justify-content-right">
+          
+          <form class="d-flex justify-content-right" method="post">
             <ul class="navbar-nav">
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="Género.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="Genres_btn" role="button">
                     <i class="bi bi-archive icon-big"></i>
-                  </a>
+                  </button>
                   Genres
                 </div>
                 
               </li>
               <li class="nav-item p-1">
                 <div class="icon-text">
-                  <a class="btn btn-icons btn-outline-dark" href="ListaUtilizador.html" role="button">
+                  <button class="btn btn-icons btn-outline-dark" name="MyBooks_btn" role="button">
                     <i class="bi bi-bookmarks icon-big"></i>
-                  </a>
+                  </button>
                   My Books
                 </div>
                 
               </li>
               <li class="nav-item p-1">
-                <div class="icon-text">
-                  <a onclick="checkLogIn()" class="btn btn-icons btn-outline-dark btn-login" role="button">
+              <div class="icon-text">
+                  <button class="btn btn-icons btn-outline-dark" name="Perfil_btn" role="button">
                     <i class="bi bi-person icon-big"></i>
-                  </a>
+                  </button>
                   My Account
                 </div>
                 

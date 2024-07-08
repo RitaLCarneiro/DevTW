@@ -32,7 +32,7 @@
                 $count = $stmt->rowCount();
                 if($count > 0){
                     $_SESSION['email'] = $email;
-                    header("Location: Perfil.php");
+                    header("Location: Livraria.php");
                     exit();
                 }else{
                     $emailAviso = "Email ou password incorrectos.";
