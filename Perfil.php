@@ -76,6 +76,12 @@
         header("Location: ListaUtilizador.php");
         exit();
     }
+
+    if (isset($_POST['AddBook_btn'])){
+      header("Location: novoLivro.php");
+      exit();
+  }
+
     ?>
 
     <div class="container-fluid" id="headerbackground">
@@ -206,6 +212,16 @@
                     <div class="row g-0">
                         <div class="col-md-1" style="margin-top: 30px;"><img src="assets/icons/favs.svg" style="width: 30px;height: 30px;margin-left: 20px;"></div>
                         <div class="col-md-3" style="margin-top: 30px;"><h5>My Books</h5></div>
+                        <div class="col-md-6" style="margin-top: 30px;"></div>
+                        <div class="col-md-2" style="margin-top: 10px;">
+                          
+                        <form method="post" action="">
+                          <button class="btn btn-warning" name="AddBook_btn" role="button">
+                            Adicionar<br>Livro
+                          </button>
+                        </form>
+                        
+                        </div>
                     </div>
                     <!--Lista de livros dentro da div My Books-->
                     <div class="row g-0" id="myBooks" style="justify-content:center">
